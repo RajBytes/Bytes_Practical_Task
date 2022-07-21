@@ -39,3 +39,10 @@ favourite default)
 > With the help of Base Architecture we can utilize below Features.
 
 
+1. We achieved the central Api call with different thread (IO Thread) which helps to utilize the at maximum level.
+2. We achieved the central response handing mechanism by which we can handle the multiple success and failure cases.
+3. We also added the common progress and toast/snackbar message display which helps to reduce the code rewrite and maximum utilization and single change modification features.
+4. We also added the some useful implementation like **UnAuthorize User**, **Retry Policy**, **No Internet** etc.,
+5. We also added the Generic Type Utilization with ViewModel and Data Binding where we do not have to write small piece of code everytime.
+
+
