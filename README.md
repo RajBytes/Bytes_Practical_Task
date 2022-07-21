@@ -44,5 +44,12 @@ favourite default)
 3. We also added the common progress and toast/snackbar message display which helps to reduce the code rewrite and maximum utilization and single change modification features.
 4. We also added the some useful implementation like **UnAuthorize User**, **Retry Policy**, **No Internet** etc.,
 5. We also added the Generic Type Utilization with ViewModel and Data Binding where we do not have to write small piece of code everytime.
+6. We also used the Generic RecycleView Implementation where we do not have to write the each time a new adapter to bind with Recycleview but we just have to assign the Object list and single item layout.
+
+
+## Screens in Application.
+
+1. Splash Screen.
+2. Product List Screen.
 
 
