@@ -52,4 +52,13 @@ favourite default)
 1. Splash Screen.
 2. Product List Screen.
 
+> Below I am attaching the video for the reference on same.
+
+
+<iframe width="560" height="315"
+src="https://youtu.be/-TgDiIVFsSA"
+frameborder="0"
+allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+allowfullscreen></iframe>
+
 

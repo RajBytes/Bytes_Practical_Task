@@ -35,11 +35,15 @@ open class BaseRepository {
      */
     suspend fun <T : Any> makeAPICall(call: suspend () -> Response<T>): ResponseHandler<T?> {
         var response: Response<T>? = null
+        var rootCause: Exception? = null
         return withContext(Dispatchers.IO) {
             //emit response
             val res = flow { emit(call.invoke()) }
             //if error response than make api call attempt with delay
             res.retryWhen { cause, attempt ->
+                if (cause != null && cause is Exception) {
+                    rootCause = cause
+                }
                 if (cause is Exception && attempt < 3) {
                     delay(2000)
                     return@retryWhen true
@@ -57,8 +61,8 @@ open class BaseRepository {
                         Response.success(it.body()) //convert ResponseData<T> to Response<ResponseData<T>> & set response
                 }
             try {
-                when {
-                    response?.code() in (200..300) -> {
+                if (response != null) {
+                    if (response?.code() in (200..300)) {
                         return@withContext when (response?.code()) {
                             400 -> {
 
@@ -77,22 +81,24 @@ open class BaseRepository {
                             }
                             else -> ResponseHandler.OnSuccessResponse(response?.body())
                         }
-                    }
-                    response?.code() == 401 -> {
+                    } else if (response?.code() == 401) {
                         return@withContext parseUnAuthorizeResponse(response?.errorBody())
-                    }
-                    response?.code() == 422 -> {
+                    } else if (response?.code() == 422) {
                         return@withContext parseServerSideErrorResponse(response?.errorBody())
-                    }
-                    response?.code() == 500 -> {
+                    } else if (response?.code() == 500) {
                         return@withContext ResponseHandler.OnFailed(
                             HttpErrorCode.NOT_DEFINED.code,
                             "",
                             response!!.code().toString()
                         )
-                    }
-                    else -> {
+                    } else {
                         return@withContext parseUnKnownStatusCodeResponse(response?.errorBody())
+                    }
+                } else {
+                    if (rootCause is UnknownHostException || rootCause is ConnectionShutdownException) {
+                        ResponseHandler.OnFailed(HttpErrorCode.NO_CONNECTION.code, "", "")
+                    } else {
+                        ResponseHandler.OnFailed(HttpErrorCode.NOT_DEFINED.code, "", "")
                     }
                 }
             } catch (e: Exception) {
