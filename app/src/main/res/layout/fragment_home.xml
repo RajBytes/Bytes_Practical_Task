@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="java.util.ArrayList" />
+
+        <variable
+            name="viewmodel"
+            type="com.bytes.app.ui.home.HomeViewModel" />
+
+        <variable
+            name="model"
+            type="java.util.ArrayList" />
+
+        <variable
+            name="callback"
+            type="com.bytes.app.ui.home.ProductFavoriteClickListener" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        tools:context=".ui.home.HomeFragment">
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/mGuidelineStart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.06" />
+
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/mGuidelineEnd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.94" />
+
+
+        <androidx.appcompat.widget.SearchView
+            android:id="@+id/svHomeData"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_30sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:background="@drawable/bg_white_rounded"
+            android:focusableInTouchMode="true"
+            android:imeOptions="actionSearch"
+            android:inputType="text"
+            android:singleLine="true"
+            android:textSize="@dimen/_17ssp"
+            app:queryBackground="@android:color/transparent"
+            bind:defaultQueryHint="@string/label_search_hint"
+            bind:iconifiedByDefault="false"
+            bind:layout_constraintEnd_toEndOf="@id/mGuidelineEnd"
+            bind:layout_constraintStart_toStartOf="@id/mGuidelineStart"
+            bind:layout_constraintTop_toTopOf="parent"
+            bind:searchIcon="@drawable/ic_search_icon" />
+
+        <View
+            android:id="@+id/mViewDivider"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:background="@color/color_view_divider"
+            bind:layout_constraintStart_toStartOf="parent"
+            bind:layout_constraintTop_toBottomOf="@id/svHomeData" />
+
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/swipeContainer"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            bind:layout_constraintEnd_toEndOf="parent"
+            bind:layout_constraintStart_toStartOf="parent"
+            bind:layout_constraintTop_toBottomOf="@id/mViewDivider">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvHomeVendor"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:fadingEdge="none"
+                android:orientation="vertical"
+                android:overScrollMode="never"
+                android:scrollbars="none"
+                bind:callback="@{callback}"
+                bind:filterValue="@{viewmodel.searchValue}"
+                bind:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                bind:layout_constraintBottom_toBottomOf="parent"
+                bind:layout_constraintEnd_toEndOf="parent"
+                bind:layout_constraintStart_toStartOf="parent"
+                bind:layout_constraintTop_toTopOf="parent"
+                bind:notifyData="@{viewmodel.isNotifyDataChanged()}"
+                bind:vendor_items_list="@{model}"
+                tools:listitem="@layout/row_item_home_list" />
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

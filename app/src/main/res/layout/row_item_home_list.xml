@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="model"
+            type="com.bytes.app.ui.home.Product" />
+
+        <import type="com.bytes.app.utils.StringUtilsKt" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white">
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/mGuidelineStart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.06" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/mGuidelineTop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.1" />
+
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/mGuidelineEnd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.94" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivProduct"
+            android:layout_width="@dimen/_70sdp"
+            android:layout_height="@dimen/_70sdp"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:background="#E1E6EA"
+            android:scaleType="center"
+            android:src="@drawable/ic_placeholder"
+            app:layout_constraintStart_toStartOf="@id/mGuidelineStart"
+            app:layout_constraintTop_toTopOf="@id/mGuidelineTop"
+            bind:imageSet="@{model.product_Image}"
+            bind:placeHolder="@{@drawable/ic_placeholder}" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivFavourite"
+            android:layout_width="@dimen/_20sdp"
+            android:layout_height="@dimen/_20sdp"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:background="@drawable/bg_shape_circle"
+            android:elevation="@dimen/_2sdp"
+            android:padding="@dimen/_5sdp"
+            android:src="@{model.is_product_Favourite?@drawable/ic_favourite:@drawable/ic_un_favourite}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/mGuidelineTop"
+            app:tint="@android:color/holo_blue_dark"
+            tools:src="@drawable/ic_favourite" />
+
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tvProductDescription"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_7sdp"
+            android:ellipsize="end"
+            android:fontFamily="@font/sfpromedium"
+            android:maxLines="5"
+            android:text="@{model.product_Description}"
+            android:textColor="@color/color_code_row_item_text"
+            android:textSize="@dimen/_11ssp"
+            app:layout_constraintEnd_toEndOf="@id/mGuidelineEnd"
+            app:layout_constraintStart_toEndOf="@id/ivProduct"
+            app:layout_constraintTop_toTopOf="@id/ivProduct"
+            tools:text="@tools:sample/lorem/random" />
+
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tvAmount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginEnd="@dimen/_8sdp"
+            android:fontFamily="@font/sfpro_bold"
+            android:text="@{StringUtilsKt.toCurrencyAmount(model.vendorsInventory.get(0).productPrice)}"
+            android:textColor="@color/color_code_row_item_text"
+            android:textSize="@dimen/_12ssp"
+            app:layout_constraintEnd_toStartOf="@+id/tvStrikeThruAmount"
+            app:layout_constraintTop_toBottomOf="@+id/ivProduct"
+            tools:text="$ 99.99" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tvStrikeThruAmount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/sfpro_bold"
+            android:text="@{StringUtilsKt.toCurrencyAmount(model.vendorsInventory.get(0).listPrice)}"
+            android:textColor="#7b8e9d"
+            android:textSize="@dimen/_8ssp"
+            app:layout_constraintBottom_toBottomOf="@+id/tvAmount"
+            app:layout_constraintEnd_toEndOf="@id/mGuidelineEnd"
+            app:layout_constraintTop_toTopOf="@+id/tvAmount"
+            bind:isStrikeThruText="@{true}"
+            tools:text="$ 122.22" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:background="@color/color_view_divider"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvAmount" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
